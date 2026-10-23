@@ -9,10 +9,12 @@ const {
     deleteCustomer
 } = require('../customerController/customerController');
 
-router.get('/getCustomers', getAllcustomer);
-router.get('/getCustomer/:id', getCustomerByID);
-router.post('/addCustomer', createCustomer);
-router.put('/updateCustomer/:id', updateCustomer);
-router.delete('/deleteCustomer/:id', deleteCustomer);
+const authToken = require("../jwtMiddleware/authJWTMiddleware");
+
+router.get('/getCustomers', authToken, getAllcustomer);
+router.get('/getCustomer/:id', authToken, getCustomerByID);
+router.post('/addCustomer', authToken, createCustomer);
+router.put('/updateCustomer/:id', authToken, updateCustomer);
+router.delete('/deleteCustomer/:id', authToken, deleteCustomer);
 
 module.exports = router;

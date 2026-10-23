@@ -1,4 +1,3 @@
-const customer = require("../customerJSON/customer");
 const { sql, poolPromise } = require("../config/db_connection");
 
 const isValidGmail = (email) => /^[a-z0-9._%+-]+@gmail\.com$/i.test(email);
@@ -145,7 +144,7 @@ const createCustomer = async (req, res) => {
       return res.status(400).json({ success: false, message: error });
     }
 
-    const createdBy = "Kamalesh";
+    const createdBy = req.user.userName;
     const email = Email.trim().toLowerCase();
     const phone = Phone.trim();
     const alternatePhone = AlternatePhone ? AlternatePhone.trim() : null;
@@ -256,7 +255,7 @@ updateCustomer = async (req, res) => {
             });
         }
 
-        const ModifiedBy = "Kamalesh";
+        const ModifiedBy = req.user.userName;
         
         const customerResult = await pool
             .request()
@@ -362,5 +361,6 @@ module.exports = {
     getCustomerByID,
     createCustomer,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    findDuplicate,
 };
